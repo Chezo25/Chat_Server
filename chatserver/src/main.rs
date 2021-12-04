@@ -1,5 +1,5 @@
 use tokio::{
-    io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt, BufReader}, 
+    io::{AsyncBufReadExt, AsyncWriteExt, BufReader}, 
     net::TcpListener,
 };
 
@@ -24,6 +24,8 @@ async fn main() {
         break;
     }
 
-    writer.write_all(line.as_bytes()).await.unwrap();
+        writer.write_all(line.as_bytes()).await.unwrap();
+        line.clear();
+
     }
 }
