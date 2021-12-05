@@ -38,7 +38,7 @@ async fn main() {
 
             let msg = rx.recv().await.unwrap();
 
-            writer.write_all(line.as_bytes()).await.unwrap();
+            writer.write_all(msg.as_bytes()).await.unwrap();
             line.clear();
 
             }
