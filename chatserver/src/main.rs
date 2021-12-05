@@ -9,10 +9,10 @@ use tokio::{
 async fn main() {
     let listener = TcpListener::bind("localhost:8000").await.unwrap(); // await allows the program to wait for a response
 
-    let (tx, _rx) = broadcast::channel::<String>(20);
+    let (tx, _rx) = broadcast::channel(20); //turbo fish
 
     loop{
-        let ( mut socket, _addr) = listener.accept().await.unwrap();
+        let ( mut socket, addr) = listener.accept().await.unwrap();
 
         let tx = tx.clone();
 
@@ -32,13 +32,15 @@ async fn main() {
                         if result.unwrap() == 0{
                         break;
                         }        
-                        tx.send(line.clone()).unwrap(); 
+                        tx.send((line.clone(),addr)).unwrap(); 
                         line.clear();
                     }
                     result = rx.recv() => {
-                        let msg = result.unwrap();
+                        let (msg, other_addr) = result.unwrap();
 
+                        if addr != other_addr {
                         writer.write_all(msg.as_bytes()).await.unwrap();
+                        }
                     }
                 }                                   
 
